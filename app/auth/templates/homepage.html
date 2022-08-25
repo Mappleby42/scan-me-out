@@ -2,8 +2,35 @@
 
 {% block content%}
 <div class="container">
-        <h3> HomePage </h3>
+    <h3 class='text-center text-muted mb-3'>User management application</h3>
     <h4 class="text-primary"> Logged-in as {{ current_user.user_name.title() }} </h4>
+    <p class='text-right'>
+        <a href='{{url_for("authentication.add_user")}}' class='btn btn-secondary '>+Add User</a>
+        <a href='{{url_for("authentication.scan_user")}}' class='btn btn-primary '>*Scan User</a>
+    </p>
+    <table class='table table-bordered'>
+        <thead>
+            <th>SNo</th>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Code</th>
+            <th>On Site</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </thead>
+        <tbody>
+            {% for row in datas %}
+            <tr>
+                <td>{{loop.index}}</td>
+                <td>{{row.UNAME}}</td>
+                <td>{{row.CONTACT}}</td>
+                <td>{{row.CODE}}</td>
+                <td>{{row.ONSITE==1}}</td>
+                <td><a href='{{url_for("authentication.edit_user",uid=row.UID)}}' class='btn btn-primary'>Edit</a></td>
+                <td><a href='{{url_for("authentication.delete_user",uid=row.UID)}}' class='btn btn-danger' onclick='return confirm("Are You Sure")'>Delete</a></td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
 </div>
-
 {% endblock content%}

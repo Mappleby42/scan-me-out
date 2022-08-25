@@ -16,22 +16,28 @@
     {% endblock head %}
     <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-<a class="navbar-brand" href="#">Flask-Login-Example</a>
+<a class="navbar-brand" href="homepage">Scan Me Out</a>
 
 <ul class="nav">
 
         {% if current_user.is_authenticated %}
         <li class="nav-item"> 
-        <a class="nav-link active"  href="{{ url_for('authentication.log_out_user') }}">  LogOut (Logged-in as {{ current_user.user_name.title() }})</a>
+            <div class="nav-link">{{ current_user.user_name.title() }}</div>
+        </li>
+        <li class="nav-item"> 
+            <a class="nav-link active"  href="{{ url_for('authentication.log_out_user') }}">  LogOut</a>
         </li>
         {% else %}
         <li class="nav-item">
-        <a class="nav-link active" href="{{ url_for('authentication.log_in_user') }}"> LogIn</a>
-    </li>
-    <li class="nav-item">
+            <a class="nav-link active" href="{{ url_for('authentication.log_in_user') }}"> LogIn</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link active" href="{{ url_for('authentication.register_user') }}"> Register</a>
         </li>
         {% endif %}
+        <li class="nav-item"> 
+            <a class="nav-link active"  href="{{ url_for('authentication.scan_user') }}">  Scan</a>
+        </li>
 </ul>
 </nav>
 
