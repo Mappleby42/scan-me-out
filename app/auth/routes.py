@@ -126,6 +126,29 @@ def edit_user(uid):
     data=cur.fetchone()
     return render_template("edit_user.html",datas=data)
 
+@authentication.route("/scan_user",methods=['POST','GET'])
+def scan_user():
+    if request.method=='POST':
+        code=request.form['code']
+        onsite=True
+        try:
+            request.form['onsite']
+        except:
+            onsite=False
+        con=sql.connect("instance/db_web.db")
+        cur=con.cursor()
+        cur.execute("select UNAME from users WHERE CODE='" + code + "'")
+        data=cur.fetchone()
+        if len(data) == 0:
+            return render_template("scan_user.html", error="Error: this user doesn't exist")
+        cur.execute("update users set ONSITE=? where CODE=?",(onsite,code))
+        con.commit()
+        if (onsite):
+            flash(data[0] + ' is now on site','success')
+        else:
+            flash(data[0] + ' is now off site','success')
+        return redirect(url_for("authentication.index"))
+    return render_template("scan_user.html")
     
 @authentication.route("/delete_user/<string:uid>",methods=['GET'])
 def delete_user(uid):
