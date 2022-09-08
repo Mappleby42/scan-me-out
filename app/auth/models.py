@@ -10,6 +10,7 @@ class User(UserMixin, db.Model):
     #user_public_id = db.Column(db.String(60))
     user_name = db.Column(db.String(20))
     user_email = db.Column(db.String(60), unique=True, index=True)
+    super_user = db.Column(db.Boolean())
     user_password = db.Column(db.String(80))
     create_date = db.Column(db.DateTime, default=datetime.now)
 
@@ -17,10 +18,11 @@ class User(UserMixin, db.Model):
         return bcrypt.check_password_hash(self.user_password, password)
 
     @classmethod
-    def create_user(cls, user, email, password):
+    def create_user(cls, user, email, super_user, password):
 
         user = cls(user_name=user,
                    user_email=email,
+                   super_user=super_user,
                    user_password=bcrypt.generate_password_hash(password).decode('utf-8')
             )
         db.session.add(user)

@@ -17,6 +17,7 @@ def register_user():
         User.create_user(
             user=form.name.data,
             email=form.email.data,
+            super_user=False,
             password=form.password.data
         )
         flash("Registration Successful")
@@ -26,12 +27,7 @@ def register_user():
 
 @authentication.route('/')
 def index():
-    con=sql.connect("instance/db_web.db")
-    con.row_factory=sql.Row
-    cur=con.cursor()
-    cur.execute("select * from users")
-    data=cur.fetchall()
-    return render_template('index.html',datas=data)
+    return homepage()
 
 @authentication.route('/login', methods=['GET','POST'])
 def log_in_user():
