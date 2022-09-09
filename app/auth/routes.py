@@ -56,6 +56,15 @@ def homepage():
     data=cur.fetchall()
     return render_template('homepage.html',datas=data)
 
+@authentication.route('/admin')
+@login_required
+def admin():
+    con=sql.connect("instance/flask-crud.db")
+    con.row_factory=sql.Row
+    cur=con.cursor()
+    cur.execute("select * from users")
+    data=cur.fetchall()
+    return render_template('admin.html',datas=data)
 
 @authentication.route('/logout', methods=['GET'])
 @login_required
@@ -151,6 +160,15 @@ def delete_user(uid):
     con=sql.connect("instance/db_web.db")
     cur=con.cursor()
     cur.execute("delete from users where UID=?",(uid,))
+    con.commit()
+    flash('User Deleted','warning')
+    return redirect(url_for("authentication.index"))
+    
+@authentication.route("/delete_admin/<string:id>",methods=['GET'])
+def delete_admin(id):
+    con=sql.connect("instance/flask-crud.db")
+    cur=con.cursor()
+    cur.execute("delete from users where id=?",(id))
     con.commit()
     flash('User Deleted','warning')
     return redirect(url_for("authentication.index"))

@@ -20,21 +20,26 @@
 
 <ul class="nav">
 
-        {% if current_user.is_authenticated %}
+    {% if current_user.is_authenticated %}
         <li class="nav-item"> 
             <div class="nav-link">{{ current_user.user_name.title() }}</div>
         </li>
         <li class="nav-item"> 
             <a class="nav-link active"  href="{{ url_for('authentication.log_out_user') }}">  LogOut</a>
         </li>
-        {% else %}
+        {% if current_user.is_authenticated %}
+            <li class="nav-item"> 
+                <a class="nav-link active"  href="{{ url_for('authentication.admin') }}">  Admin Control</a>
+            </li>
+        {% endif %}
+    {% else %}
         <li class="nav-item">
             <a class="nav-link active" href="{{ url_for('authentication.log_in_user') }}"> LogIn</a>
         </li>
         <li class="nav-item">
             <a class="nav-link active" href="{{ url_for('authentication.register_user') }}"> Register</a>
         </li>
-        {% endif %}
+    {% endif %}
         <li class="nav-item"> 
             <a class="nav-link active"  href="{{ url_for('authentication.scan_user') }}">  Scan</a>
         </li>

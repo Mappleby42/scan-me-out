@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block content%}
+<div class="container">
+    <h3 class='text-center text-muted mb-3'>User management</h3>
+    <h4 class="text-primary"> Logged-in as {{ current_user.user_name.title() }} </h4>
+    <table class='table table-bordered'>
+        <thead>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Super User</th>
+            <th>Delete</th>
+        </thead>
+        <tbody>
+            {% for row in datas %}
+            <tr>
+                <td>{{loop.index}}</td>
+                <td>{{row.user_name}}</td>
+                <td>{{row.user_email}}</td>
+                <td>{{row.super_user}}</td>
+                <td><a href='{{url_for("authentication.delete_admin",id=row.id)}}' class='btn btn-danger' onclick='return confirm("Are You Sure")'>Delete</a></td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</div>
+{% endblock content%}
