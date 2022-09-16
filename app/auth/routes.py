@@ -59,7 +59,9 @@ def homepage():
 @authentication.route('/admin')
 @login_required
 def admin():
-    con=sql.connect("instance/flask-crud.db")
+    if current_user.super_user == False:
+        return(redirect(url_for('authentication.homepage')))
+    con=sql.connect("instance/db_admins.db")
     con.row_factory=sql.Row
     cur=con.cursor()
     cur.execute("select * from users")
