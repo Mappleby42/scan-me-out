@@ -49,7 +49,7 @@ def log_in_user():
 @authentication.route('/homepage')
 @login_required
 def homepage():
-    con=sql.connect("instance/db_web.db")
+    con=sql.connect("instance/db_employees.db")
     con.row_factory=sql.Row
     cur=con.cursor()
     cur.execute("select * from users WHERE ADMIN_ID = '" + str(current_user.id) + "'")
@@ -79,7 +79,7 @@ def log_out_user():
 @login_required
 def add_user():
     if request.method=='POST':
-        con=sql.connect("instance/db_web.db")
+        con=sql.connect("instance/db_employees.db")
         cur=con.cursor()
 
         uname=request.form['uname']
@@ -120,13 +120,13 @@ def edit_user(uid):
             request.form['onsite']
         except:
             onsite=False
-        con=sql.connect("instance/db_web.db")
+        con=sql.connect("instance/db_employees.db")
         cur=con.cursor()
         cur.execute("update users set UNAME=?,CONTACT=?,ONSITE=? where UID=?",(uname,contact,onsite,uid))
         con.commit()
         flash('User Updated','success')
         return redirect(url_for("authentication.index"))
-    con=sql.connect("instance/db_web.db")
+    con=sql.connect("instance/db_employees.db")
     con.row_factory=sql.Row
     cur=con.cursor()
     cur.execute("select * from users where UID=?",(uid,))
@@ -142,7 +142,7 @@ def scan_user():
             request.form['onsite']
         except:
             onsite=False
-        con=sql.connect("instance/db_web.db")
+        con=sql.connect("instance/db_employees.db")
         cur=con.cursor()
         cur.execute("select UNAME from users WHERE CODE='" + code + "'")
         data=cur.fetchone()
@@ -159,7 +159,7 @@ def scan_user():
     
 @authentication.route("/delete_user/<string:uid>",methods=['GET'])
 def delete_user(uid):
-    con=sql.connect("instance/db_web.db")
+    con=sql.connect("instance/db_employees.db")
     cur=con.cursor()
     cur.execute("delete from users where UID=?",(uid,))
     con.commit()
@@ -168,7 +168,7 @@ def delete_user(uid):
     
 @authentication.route("/delete_admin/<string:id>",methods=['GET'])
 def delete_admin(id):
-    con=sql.connect("instance/flask-crud.db")
+    con=sql.connect("instance/db_admins.db")
     cur=con.cursor()
     cur.execute("delete from users where id=?",(id))
     con.commit()

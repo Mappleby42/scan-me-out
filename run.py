@@ -3,7 +3,7 @@ from app.auth.models import User
 import sqlite3 as sql
 
 #connect to SQLite
-con = sql.connect('instance/db_web.db')
+con = sql.connect('instance/db_employees.db')
 
 #Create a Connection
 cur = con.cursor()
@@ -11,7 +11,7 @@ cur = con.cursor()
 #Drop users table if already exsist.
 cur.execute("DROP TABLE IF EXISTS users")
 
-#Create users table  in db_web database
+#Create users table  in db_employees database
 sql ='''CREATE TABLE "users" (
 	"UID"	INTEGER PRIMARY KEY AUTOINCREMENT,
 	"UNAME"	TEXT,
